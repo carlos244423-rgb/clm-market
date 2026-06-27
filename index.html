@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLM-Market</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+body{background:#000;color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden}
+
+/* ── PARTICLES bg ── */
+#particles-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+
+/* ── HERO ── */
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  padding:48px 24px 0;
+  background:#000;
+  /* NO overflow:hidden so stars aren't clipped */
+}
+
+/* star canvases sit inside hero but overflow the sides */
+.star-canvas{
+  position:absolute;
+  top:24%;
+  pointer-events:none;
+  z-index:2;
+  width:320px;height:320px;
+  max-width:30vw;
+}
+#star-left {left:20px}
+#star-right{right:20px}
+
+@media(max-width:900px){
+  #star-left{left:0px}
+  #star-right{right:0px}
+}
+@media(max-width:600px){
+  .star-canvas{width:140px;height:140px;max-width:140px}
+  #star-left{left:-6px}
+  #star-right{right:-6px}
+}
+
+#wave-canvas{
+  position:absolute;
+  bottom:0;left:0;
+  width:100%;height:420px;
+  pointer-events:none;
+  z-index:1;
+}
+
+.hero-content{
+  position:relative;
+  z-index:3;
+  text-align:center;
+  width:100%;
+  max-width:780px;
+}
+
+.hero-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-weight:400;
+  font-size:clamp(28px,4vw,44px);
+  letter-spacing:.05em;
+  margin-bottom:18px;
+}
+
+.hero-tagline{
+  font-weight:500;
+  font-size:clamp(18px,2.4vw,26px);
+  line-height:1.45;
+  margin-bottom:36px;
+}
+
+.hero-video-wrap{
+  width:100%;max-width:660px;
+  margin:0 auto 32px;
+  border-radius:12px;overflow:hidden;
+  background:#111;
+  aspect-ratio:16/9.46;
+  position:relative;
+}
+.hero-video-wrap iframe,
+.hero-video-wrap wistia-player{
+  width:100%;height:100%;border:none;display:block;
+}
+
+.hero-cta-text{
+  font-size:clamp(14px,1.8vw,18px);
+  line-height:1.7;
+  margin-bottom:24px;
+}
+
+.btn-apply{
+  display:inline-block;
+  border:1.5px solid rgba(255,255,255,.55);
+  background:transparent;color:#fff;
+  font-size:15px;font-weight:400;
+  letter-spacing:.03em;
+  padding:14px 44px;
+  border-radius:50px;
+  text-decoration:none;
+  transition:background .2s;
+  margin-bottom:180px;
+}
+.btn-apply:hover{background:rgba(255,255,255,.1)}
+
+/* ── SECTIONS ── */
+section{position:relative;z-index:1}
+
+.section-inner{max-width:900px;margin:0 auto;padding:80px 24px;text-align:center}
+
+.section-title-serif{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:clamp(40px,7vw,80px);
+  font-weight:400;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin-bottom:48px;
+}
+
+/* testimonials */
+.testi-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.testi-card{border-radius:12px;overflow:hidden;background:#0d0d0d}
+.testi-card img{width:100%;height:780px;object-fit:cover;object-position:top;display:block}
+
+/* videos */
+.video-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:60px}
+.video-thumb{border-radius:12px;overflow:hidden;background:#111;aspect-ratio:16/9}
+.video-thumb iframe{width:100%;height:100%;border:none;display:block}
+
+/* marquee */
+.marquee-wrap{overflow:hidden;width:100%;mask-image:linear-gradient(to right,transparent,black 6%,black 94%,transparent)}
+.marquee-track{display:flex;gap:14px;animation:scroll 28s linear infinite;width:max-content}
+.marquee-track:hover{animation-play-state:paused}
+@keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.marquee-track img{width:200px;height:340px;object-fit:cover;border-radius:10px;flex-shrink:0}
+
+/* disclaimer */
+.disclaimer-section{border-top:1px solid #111}
+.disclaimer-inner{max-width:760px;margin:0 auto;padding:80px 24px;text-align:center}
+.disclaimer-inner h2{font-size:18px;font-weight:600;margin-bottom:6px}
+.disclaimer-inner h3{font-size:13px;font-weight:600;color:#aaa;margin:28px 0 8px;letter-spacing:.05em}
+.disclaimer-inner p{font-size:13px;color:#666;line-height:1.9;margin-bottom:10px}
+.disclaimer-inner ul{list-style:disc;padding-left:24px;text-align:left;display:inline-block;margin-bottom:12px}
+.disclaimer-inner li{font-size:13px;color:#666;line-height:1.9}
+
+.no-refund-block{padding:60px 24px;text-align:center;border-top:1px solid #111}
+.no-refund-block h2{font-size:18px;font-weight:700;margin-bottom:12px;letter-spacing:.05em}
+.no-refund-block p{font-size:13px;color:#666;line-height:1.8;max-width:560px;margin:0 auto}
+
+footer{padding:36px 24px;text-align:center;border-top:1px solid #0f0f0f}
+footer p{font-size:11px;color:#333;letter-spacing:.12em}
+
+@media(max-width:600px){
+  .testi-grid,.video-grid{grid-template-columns:1fr}
+  .star-canvas{width:160px;height:160px}
+  #star-left{left:-30px}
+  #star-right{right:-30px}
+  .marquee-track img{width:150px;height:260px}
+}
+</style>
+</head>
+<body>
+
+<canvas id="particles-canvas"></canvas>
+
+<!-- ══ HERO ══ -->
+ <section class="hero">
+
+   <!-- Metallic star clusters -->
+   <canvas id="star-left"  class="star-canvas"></canvas>
+   <canvas id="star-right" class="star-canvas"></canvas>
+
+   <!-- Animated wave lines -->
+   <canvas id="wave-canvas"></canvas>
+
+   <div class="hero-content">
+     <div class="hero-logo">CLM-Market</div>
+     <div class="hero-tagline">
+       The Ecommerce Evolution Community: from<br>
+       Organic Dropshipping to scalable Brand Building
+     </div>
+
+     <div class="hero-video-wrap">
+       <script src="https://fast.wistia.com/player.js" async></script>
+       <script src="https://fast.wistia.com/embed/qq77m3a5jb.js" async type="module"></script>
+       <style>wistia-player[media-id='qq77m3a5jb']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/qq77m3a5jb/swatch'); display: block; filter: blur(5px); padding-top:58.96%; }</style>
+       <wistia-player media-id="qq77m3a5jb" aspect="1.696113074204947"></wistia-player>
+     </div>
+
+     <p class="hero-cta-text">
+       Apply for 1-1 Ecommerce coaching<br>
+       warning : you will receive a phone call if your application is approved
+     </p>
+     <a href="https://form.typeform.com/to/nazGRAXo" target="_blank" class="btn-apply">Apply here</a>
+   </div>
+ </section>
+
+<!-- ══ TESTIMONIALS ══ -->
+<section>
+  <div class="section-inner">
+    <div class="section-title-serif">Testimonials</div>
+    <div class="testi-grid">
+      <div class="testi-card"><img src="https://framerusercontent.com/images/vOcXog0kzGGKqBY6S3HrUDLVObM.jpeg" alt=""></div>
+      <div class="testi-card"><img src="https://framerusercontent.com/images/GCUNmjfgqgdwQOXzi8Iyqaswf0.jpeg" alt=""></div>
+      <div class="testi-card"><img src="https://framerusercontent.com/images/S6QYXCdiGeiT4jMHqwLdeTz1G98.jpeg" alt=""></div>
+      <div class="testi-card"><img src="https://framerusercontent.com/images/2nbLzL4eYpWA44rguiS9MqTHmc.jpeg" alt=""></div>
+    </div>
+    <div style="margin-top:40px">
+      <a href="https://form.typeform.com/to/nazGRAXo" target="_blank" class="btn-apply">Apply here</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ VIDEOS ══ -->
+<section>
+  <div class="section-inner">
+      <div class="video-thumb">
+        <iframe src="https://www.youtube.com/embed/OoG34UMhjak?iv_load_policy=3&rel=0&modestbranding=1" allowfullscreen></iframe>
+      </div>
+    <p style="font-weight:700;font-size:clamp(22px,3vw,30px);margin-bottom:8px">The secret of drop shiping</p>
+    <p style="font-size:14px;color:#888;margin-bottom:40px;line-height:1.6">
+      learn how i made 37k in just 7 days<br>resources and framework i use explamed
+    </p>
+        <div class="video-thumb">
+        <iframe src="https://www.youtube.com/embed/adFGAB0O-68?iv_load_policy=3&rel=0&modestbranding=1" allowfullscreen></iframe>
+      </div>
+    <div class="video-grid">
+    
+  
+    </div>
+    <p style="font-weight:700;font-size:clamp(22px,3vw,30px);margin-bottom:12px">The framework that made us millions</p>
+    <p style="font-size:14px;color:#888;line-height:1.7;max-width:560px;margin:0 auto">
+      The framework that we had to make to get where we wanted now we are giving it away to the ones that are willing to mov forward
+    </p>
+  </div>
+</section>
+
+<!-- ══ STUDENT PROGRESS ══ -->
+<section>
+  <div class="section-inner" style="padding-bottom:0">
+    <p style="font-size:clamp(14px,1.8vw,17px);color:#ddd;line-height:1.7;max-width:620px;margin:0 auto 48px">
+      Students are killing it they took the risk and are getting back what they<br>
+      put in it's time for you to step up for your own
+    </p>
+    <p style="font-weight:700;font-size:clamp(20px,2.5vw,28px);margin-bottom:36px">Student's progress</p>
+  </div>
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <img src="https://framerusercontent.com/images/vOcXog0kzGGKqBY6S3HrUDLVObM.jpeg" alt="">
+      <img src="https://framerusercontent.com/images/GCUNmjfgqgdwQOXzi8Iyqaswf0.jpeg" alt="">
+      <img src="https://framerusercontent.com/images/S6QYXCdiGeiT4jMHqwLdeTz1G98.jpeg" alt="">
+      <img src="https://framerusercontent.com/images/2nbLzL4eYpWA44rguiS9MqTHmc.jpeg" alt="">
+      <img src="https://framerusercontent.com/images/cAgpZ7Gy8RMAdIUAB57apqyUfE.jpg" alt="">
+      <img src="https://framerusercontent.com/images/5HwAkV4aOr01OSXsjk07zElL0.jpeg" alt="">
+      <img src="https://framerusercontent.com/images/vOcXog0kzGGKqBY6S3HrUDLVObM.jpeg" alt="">
+      <img src="https://framerusercontent.com/images/GCUNmjfgqgdwQOXzi8Iyqaswf0.jpeg" alt="">
+      <img src="https://framerusercontent.com/images/S6QYXCdiGeiT4jMHqwLdeTz1G98.jpeg" alt="">
+      <img src="https://framerusercontent.com/images/2nbLzL4eYpWA44rguiS9MqTHmc.jpeg" alt="">
+      <img src="https://framerusercontent.com/images/cAgpZ7Gy8RMAdIUAB57apqyUfE.jpg" alt="">
+      <img src="https://framerusercontent.com/images/5HwAkV4aOr01OSXsjk07zElL0.jpeg" alt="">
+    </div>
+  </div>
+  <div style="height:80px"></div>
+</section>
+
+<!-- ══ DISCLAIMER ══ -->
+<section class="disclaimer-section">
+  <div class="disclaimer-inner">
+    <h2>CLM Market – Income Disclaimer</h2>
+    <h3>Important Notice About Earnings and Results</h3>
+    <p>Any income examples, testimonials, or success stories shared by CLM Market are based on real experiences from select individuals. These results are exceptional and not typical. We do not guarantee that you will achieve the same outcomes.</p>
+    <h3>Earnings Potential</h3>
+    <p>All earnings or income statements provided by CLM Market are estimates only. Your actual results will depend on many factors, including but not limited to:</p>
+    <ul>
+      <li>Your level of effort and consistency</li>
+      <li>Your skills, knowledge, and experience</li>
+      <li>Market conditions and competition</li>
+      <li>The time you dedicate to implementing strategies</li>
+      <li>Your ability to take action and adapt</li>
+    </ul>
+    <p>Because these factors vary widely among individuals, CLM Market makes no promise or guarantee that you will earn a specific income or achieve any particular result.</p>
+    <h3>Conditional Guarantee Disclosure</h3>
+    <p>Any guarantee mentioned by CLM Market is conditional and requires meeting all Key Performance Indicators (KPIs) listed in our Terms of Service. These KPIs may include:</p>
+    <ul>
+      <li>Completing all assigned lessons and tasks</li>
+      <li>Following strategies exactly as instructed</li>
+      <li>Meeting engagement and activity requirements</li>
+      <li>Taking action within specified timeframes</li>
+    </ul>
+    <p>Failure to meet these conditions voids the guarantee.</p>
+    <h3>Transparency Statement</h3>
+    <p>In accordance with FTC guidelines, CLM Market aims to provide complete transparency. Testimonials, screenshots, income examples, or case studies shown on our platforms reflect individual results and should not be viewed as typical. They are not guarantees of what you will achieve.</p>
+    <h3>Material Connections Disclosure</h3>
+    <p>Some testimonials may come from customers or partners who have received compensation, discounted products, or promotional benefits. When applicable, these relationships will be disclosed in accordance with FTC guidelines.</p>
+    <h3>Your Responsibility</h3>
+    <p>Your financial success depends on your personal skills, discipline, actions, market conditions, and external factors beyond our control. CLM Market cannot and does not guarantee your success, income level, or ability to earn revenue.</p>
+    <p>By using this website, purchasing from CLM Market, or participating in any of our programs, you acknowledge that you have read, understood, and agree to this disclaimer.</p>
+  </div>
+</section>
+
+<div class="no-refund-block">
+  <h2>NO REFUND POLICY</h2>
+  <p>All sales are final since you will be getting information, strategies, and coaching as soon as payment is completed.</p>
+</div>
+
+<footer>
+  <p>© 2025 CLM-MARKET · ALL RIGHTS RESERVED</p>
+</footer>
+
+<script>
+/* ══ SOFT GLOWING BENDY STARS ══ */
+(function(){
+  [['star-left',1],['star-right',-1]].forEach(function(pair){
+    var id=pair[0], dir=pair[1];
+    var cv=document.getElementById(id);
+    if(!cv) return;
+
+    var dpr=window.devicePixelRatio||1;
+    var S=320;
+    cv.width=cv.height=S*dpr;
+    cv.style.width=cv.style.height=S+'px';
+    var ctx=cv.getContext('2d');
+    ctx.scale(dpr,dpr);
+    var cx=S/2, cy=S/2;
+
+    var t=Math.random()*Math.PI*2;
+
+    var layers=[
+      {r:118, ir:44, rotOff:0,    speed:1.0,  alpha:1.0},
+      {r:86,  ir:33, rotOff:0.52, speed:1.18, alpha:0.85},
+      {r:57,  ir:22, rotOff:1.08, speed:0.82, alpha:0.7},
+    ];
+
+    function drawFlexStar(r, ir, rot, wobble, offX, offY){
+      offX=offX||0; offY=offY||0;
+      ctx.beginPath();
+      var pts=8;
+      for(var i=0;i<pts;i++){
+        var isOuter=i%2===0;
+        /* jiggly: each tip has its own fast high-freq wiggle */
+        var jiggle = isOuter
+          ? wobble * 0.10 * Math.sin(t * 5.5 + i * 2.1)
+          : wobble * 0.055 * Math.sin(t * 6.8 + i * 1.7);
+        var flex = isOuter
+          ? 1 + jiggle + 0.03 * Math.sin(t * 1.1 + i * 0.8)
+          : 1 + jiggle + 0.02 * Math.sin(t * 0.9 + i * 1.1);
+        var radius=(isOuter?r:ir)*flex;
+        var theta=(i/pts)*Math.PI*2+rot;
+        var x=cx+offX+Math.cos(theta)*radius;
+        var y=cy+offY+Math.sin(theta)*radius;
+        if(i===0){
+          ctx.moveTo(x,y);
+        } else {
+          var prev=i-1;
+          var prevJig=(prev%2===0)
+            ? wobble*0.10*Math.sin(t*5.5+prev*2.1)
+            : wobble*0.055*Math.sin(t*6.8+prev*1.7);
+          var prevFlex=(prev%2===0)?1+prevJig+0.03*Math.sin(t*1.1+prev*0.8)
+                                   :1+prevJig+0.02*Math.sin(t*0.9+prev*1.1);
+          var prevR=((prev%2===0)?r:ir)*prevFlex;
+          var prevTheta=(prev/pts)*Math.PI*2+rot;
+          var midTheta=(prevTheta+theta)*0.5;
+          var bow=isOuter?ir*1.05:r*0.60;
+          var cpx=cx+offX+Math.cos(midTheta)*bow;
+          var cpy=cy+offY+Math.sin(midTheta)*bow;
+          ctx.quadraticCurveTo(cpx,cpy,x,y);
+        }
+      }
+      ctx.closePath();
+    }
+
+    function frame(){
+      t += 0.010;                              /* slow tick — jiggle stays gentle */
+      var rot0 = t * dir * 0.0006;            /* barely rotating */
+
+      /* slow left-right sway + tiny vertical bob */
+      var floatX = Math.sin(t * 0.07) * 6 + Math.sin(t * 0.04) * 2.5;
+      var floatY = Math.cos(t * 0.055) * 3 + Math.cos(t * 0.035) * 1.2;
+
+      /* wobble breathes very slowly */
+      var wobble = 0.38 + 0.28 * Math.sin(t * 0.14);
+
+      ctx.clearRect(0,0,S,S);
+
+      /* ── global canvas blur makes everything dreamy/soft ── */
+      ctx.save();
+      ctx.filter = 'blur(2.8px)';
+
+        /* wide outer halo */
+        ctx.save();
+        ctx.filter='blur(24px)';
+        drawFlexStar(layers[0].r*0.9,layers[0].ir*0.9,rot0+layers[0].rotOff,wobble,floatX,floatY);
+        ctx.fillStyle='rgba(190,205,255,0.14)';
+        ctx.fill();
+        ctx.restore();
+
+        /* medium glow ring */
+        ctx.save();
+        ctx.filter='blur(9px)';
+        drawFlexStar(layers[0].r,layers[0].ir,rot0+layers[0].rotOff,wobble,floatX,floatY);
+        ctx.strokeStyle='rgba(215,225,255,0.26)';
+        ctx.lineWidth=7;
+        ctx.stroke();
+        ctx.restore();
+
+        layers.forEach(function(l,si){
+          var rot = rot0 * l.speed + l.rotOff;
+
+          /* dark metallic fill */
+          drawFlexStar(l.r,l.ir,rot,wobble,floatX,floatY);
+          var bg=ctx.createRadialGradient(
+            cx+floatX-l.r*0.22,cy+floatY-l.r*0.22,1,
+            cx+floatX,cy+floatY,l.r
+          );
+          bg.addColorStop(0,'rgba(48,50,66,0.97)');
+          bg.addColorStop(0.5,'rgba(15,15,22,0.98)');
+          bg.addColorStop(1,'rgba(4,4,9,0.97)');
+          ctx.fillStyle=bg;
+          ctx.fill();
+
+          /* blurred glowing edge */
+          ctx.save();
+          ctx.filter='blur(6px)';
+          drawFlexStar(l.r,l.ir,rot,wobble,floatX,floatY);
+          ctx.strokeStyle='rgba(185,198,255,'+(0.48-si*0.1)+')';
+          ctx.lineWidth=4.5;
+          ctx.stroke();
+          ctx.restore();
+
+          /* soft semi-crisp edge */
+          ctx.save();
+          ctx.filter='blur(1.2px)';
+          drawFlexStar(l.r,l.ir,rot,wobble,floatX,floatY);
+          ctx.strokeStyle='rgba(225,232,255,'+(0.55-si*0.12)+')';
+          ctx.lineWidth=1.2;
+          ctx.stroke();
+          ctx.restore();
+
+          /* rotating specular sheen */
+          ctx.save();
+          drawFlexStar(l.r,l.ir,rot,wobble,floatX,floatY);
+          ctx.clip();
+          var sa=rot*0.4+t*0.018;
+          var sg=ctx.createLinearGradient(
+            cx+floatX+Math.cos(sa)*(-l.r*0.72),cy+floatY+Math.sin(sa)*(-l.r*0.72),
+            cx+floatX+Math.cos(sa)*(l.r*0.42), cy+floatY+Math.sin(sa)*(l.r*0.42)
+          );
+          sg.addColorStop(0,'rgba(255,255,255,'+(0.52-si*0.11)+')');
+          sg.addColorStop(0.22,'rgba(255,255,255,'+(0.2-si*0.05)+')');
+          sg.addColorStop(0.55,'rgba(255,255,255,0.03)');
+          sg.addColorStop(1,'rgba(255,255,255,0)');
+          ctx.fillStyle=sg; ctx.fill();
+          ctx.restore();
+
+          /* soft chromatic fringe */
+          ctx.save();
+          ctx.filter='blur(3px)';
+          drawFlexStar(l.r+3,l.ir+1.5,rot+0.014,wobble*0.55,floatX-1.2,floatY);
+          ctx.strokeStyle='rgba(75,145,255,'+(0.2-si*0.04)+')';
+          ctx.lineWidth=1.8; ctx.stroke();
+          drawFlexStar(l.r+3,l.ir+1.5,rot-0.014,wobble*0.55,floatX+1.2,floatY);
+          ctx.strokeStyle='rgba(255,75,115,'+(0.16-si*0.03)+')';
+          ctx.lineWidth=1.8; ctx.stroke();
+          ctx.restore();
+
+          /* inner depth cavity */
+          drawFlexStar(l.ir*1.1,l.ir*0.42,rot+Math.PI/4,wobble*0.45,floatX,floatY);
+          ctx.fillStyle='rgba(0,0,2,0.62)'; ctx.fill();
+        });
+
+      ctx.restore(); /* end global blur */
+
+      requestAnimationFrame(frame);
+    }
+    frame();
+  });
+})();
+
+/* ══ FLOATING PARTICLES ══ */
+(function(){
+  var c = document.getElementById('particles-canvas');
+  var ctx = c.getContext('2d');
+  var W,H,pts=[];
+
+  function resize(){
+    W=c.width=window.innerWidth;
+    H=c.height=window.innerHeight;
+  }
+
+  function init(){
+    pts=[];
+    for(var i=0;i<90;i++){
+      var a=Math.random()*Math.PI*2;
+      var sp=Math.random()*0.3+0.06;
+      pts.push({
+        x:Math.random()*W, y:Math.random()*H,
+        vx:Math.cos(a)*sp, vy:Math.sin(a)*sp,
+        len:Math.random()*14+4,
+        alpha:Math.random()*0.45+0.05,
+        angle:a
+      });
+    }
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(function(p){
+      ctx.save();
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.angle);
+      ctx.beginPath();
+      ctx.moveTo(0,0);
+      ctx.lineTo(p.len,0);
+      ctx.strokeStyle='rgba(255,255,255,'+p.alpha+')';
+      ctx.lineWidth=0.9;
+      ctx.stroke();
+      ctx.restore();
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x>W+20) p.x=-20;
+      if(p.x<-20)  p.x=W+20;
+      if(p.y>H+20) p.y=-20;
+      if(p.y<-20)  p.y=H+20;
+    });
+    requestAnimationFrame(draw);
+  }
+
+  resize(); init(); draw();
+  window.addEventListener('resize',function(){resize();init();});
+})();
+
+/* ══ ANIMATED WAVE LINES ══ */
+(function(){
+  var c=document.getElementById('wave-canvas');
+  var ctx=c.getContext('2d');
+  var t=0;
+
+  function resize(){
+    c.width=c.offsetWidth;
+    c.height=c.offsetHeight;
+  }
+
+  function draw(){
+    var W=c.width, H=c.height;
+    ctx.clearRect(0,0,W,H);
+    var n=18;
+    for(var i=0;i<n;i++){
+      var yBase = H*0.12 + (i/n)*H*0.82;
+      var amp   = 20 + i*3.2;
+      var freq  = 0.0072 + i*0.00025;
+      var ph    = t*0.55 + i*0.42;
+      var alpha = 0.05 + (i/n)*0.13;
+      ctx.beginPath();
+      for(var x=0;x<=W;x+=3){
+        var y = yBase
+          + Math.sin(x*freq + ph)*amp
+          + Math.sin(x*freq*1.65 + ph*0.8)*(amp*0.38);
+        x===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+      }
+      ctx.strokeStyle='rgba(255,255,255,'+alpha+')';
+      ctx.lineWidth=1.4;
+      ctx.stroke();
+    }
+    t+=0.011;
+    requestAnimationFrame(draw);
+  }
+
+  resize(); draw();
+  window.addEventListener('resize',resize);
+})();
+</script>
+</body>
+</html>
