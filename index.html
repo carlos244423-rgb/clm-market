@@ -100,17 +100,17 @@ body{background:#000;color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden
 }
 
 .btn-apply{
-  display:inline-block;
-  border:1.5px solid rgba(255,255,255,.55);
-  background:transparent;color:#fff;
-  font-size:15px;font-weight:400;
-  letter-spacing:.03em;
-  padding:14px 44px;
-  border-radius:50px;
-  text-decoration:none;
-  transition:background .2s;
-  margin-bottom:180px;
-}
+   display:inline-block;
+   border:1.5px solid rgba(255,255,255,.55);
+   background:transparent;color:#fff;
+   font-size:15px;font-weight:400;
+   letter-spacing:.03em;
+   padding:14px 44px;
+   border-radius:50px;
+   text-decoration:none;
+   transition:background .2s;
+   margin-bottom:80px;
+ }
 .btn-apply:hover{background:rgba(255,255,255,.1)}
 
 /* ── SECTIONS ── */
@@ -140,7 +140,7 @@ section{position:relative;z-index:1}
 
 /* marquee */
 .marquee-wrap{overflow:hidden;width:100%;mask-image:linear-gradient(to right,transparent,black 6%,black 94%,transparent)}
-.marquee-track{display:flex;gap:14px;animation:scroll 28s linear infinite;width:max-content}
+.marquee-track{display:flex;gap:14px;animation:scroll 28s linear infinite;width:max-content; margin-bottom:150px;}
 .marquee-track:hover{animation-play-state:paused}
 @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 .marquee-track img{width:200px;height:340px;object-fit:cover;border-radius:10px;flex-shrink:0}
@@ -195,8 +195,9 @@ footer p{font-size:11px;color:#333;letter-spacing:.12em}
        <script src="https://fast.wistia.com/player.js" async></script>
        <script src="https://fast.wistia.com/embed/qq77m3a5jb.js" async type="module"></script>
        <style>wistia-player[media-id='qq77m3a5jb']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/qq77m3a5jb/swatch'); display: block; filter: blur(5px); padding-top:58.96%; }</style>
-       <wistia-player media-id="qq77m3a5jb" aspect="1.696113074204947" autoplay></wistia-player>
-     </div>
+<wistia-player media-id="qq77m3a5jb" aspect="1.696113074204947" autoplay id="hero-wistia-player"></wistia-player>
+        <button id="unmute-btn" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.7);color:#fff;border:1px solid #fff;padding:12px 24px;border-radius:8px;cursor:pointer;z-index:10;display:none">🔊 Unmute Video</button>
+      </div>
 
      <p class="hero-cta-text">
        Apply for 1-1 Ecommerce coaching<br>
@@ -221,7 +222,31 @@ footer p{font-size:11px;color:#333;letter-spacing:.12em}
     </div>
   </div>
 </section>
+  <div class="marquee-wrap">
 
+    <div class="marquee-track">
+      <img src="https://framerusercontent.com/images/vOcXog0kzGGKqBY6S3HrUDLVObM.jpeg" alt="">
+      <img src="https://framerusercontent.com/images/GCUNmjfgqgdwQOXzi8Iyqaswf0.jpeg" alt="">
+      <img src="https://framerusercontent.com/images/S6QYXCdiGeiT4jMHqwLdeTz1G98.jpeg" alt="">
+      <img src="https://framerusercontent.com/images/2nbLzL4eYpWA44rguiS9MqTHmc.jpeg" alt="">
+      <img src="https://framerusercontent.com/images/cAgpZ7Gy8RMAdIUAB57apqyUfE.jpg" alt="">
+      <img src="https://framerusercontent.com/images/5HwAkV4aOr01OSXsjk07zElL0.jpeg" alt="">
+      <img src="https://framerusercontent.com/images/vOcXog0kzGGKqBY6S3HrUDLVObM.jpeg" alt="">
+      <img src="https://framerusercontent.com/images/GCUNmjfgqgdwQOXzi8Iyqaswf0.jpeg" alt="">
+      <img src="https://framerusercontent.com/images/S6QYXCdiGeiT4jMHqwLdeTz1G98.jpeg" alt="">
+      <img src="https://framerusercontent.com/images/2nbLzL4eYpWA44rguiS9MqTHmc.jpeg" alt="">
+      <img src="https://framerusercontent.com/images/cAgpZ7Gy8RMAdIUAB57apqyUfE.jpg" alt="">
+      <img src="https://framerusercontent.com/images/5HwAkV4aOr01OSXsjk07zElL0.jpeg" alt="">
+    </div>
+    <div class="section-inner" style="padding-bottom:0">
+    <p style="font-weight:700;font-size:clamp(20px,2.5vw,28px);margin-bottom:26px">Student's progress</p>
+    <p style="font-size:clamp(14px,1.8vw,17px);color:#ddd;line-height:1.7;max-width:620px;margin:0 auto 28px">
+      Students are killing it they took the risk and are getting back what they<br>
+      put in it's time for you to step up for your own
+    </p>
+
+  </div>
+  </div>
 <!-- ══ VIDEOS ══ -->
 <section>
   <div class="section-inner">
@@ -248,29 +273,7 @@ footer p{font-size:11px;color:#333;letter-spacing:.12em}
 
 <!-- ══ STUDENT PROGRESS ══ -->
 <section>
-  <div class="section-inner" style="padding-bottom:0">
-    <p style="font-size:clamp(14px,1.8vw,17px);color:#ddd;line-height:1.7;max-width:620px;margin:0 auto 48px">
-      Students are killing it they took the risk and are getting back what they<br>
-      put in it's time for you to step up for your own
-    </p>
-    <p style="font-weight:700;font-size:clamp(20px,2.5vw,28px);margin-bottom:36px">Student's progress</p>
-  </div>
-  <div class="marquee-wrap">
-    <div class="marquee-track">
-      <img src="https://framerusercontent.com/images/vOcXog0kzGGKqBY6S3HrUDLVObM.jpeg" alt="">
-      <img src="https://framerusercontent.com/images/GCUNmjfgqgdwQOXzi8Iyqaswf0.jpeg" alt="">
-      <img src="https://framerusercontent.com/images/S6QYXCdiGeiT4jMHqwLdeTz1G98.jpeg" alt="">
-      <img src="https://framerusercontent.com/images/2nbLzL4eYpWA44rguiS9MqTHmc.jpeg" alt="">
-      <img src="https://framerusercontent.com/images/cAgpZ7Gy8RMAdIUAB57apqyUfE.jpg" alt="">
-      <img src="https://framerusercontent.com/images/5HwAkV4aOr01OSXsjk07zElL0.jpeg" alt="">
-      <img src="https://framerusercontent.com/images/vOcXog0kzGGKqBY6S3HrUDLVObM.jpeg" alt="">
-      <img src="https://framerusercontent.com/images/GCUNmjfgqgdwQOXzi8Iyqaswf0.jpeg" alt="">
-      <img src="https://framerusercontent.com/images/S6QYXCdiGeiT4jMHqwLdeTz1G98.jpeg" alt="">
-      <img src="https://framerusercontent.com/images/2nbLzL4eYpWA44rguiS9MqTHmc.jpeg" alt="">
-      <img src="https://framerusercontent.com/images/cAgpZ7Gy8RMAdIUAB57apqyUfE.jpg" alt="">
-      <img src="https://framerusercontent.com/images/5HwAkV4aOr01OSXsjk07zElL0.jpeg" alt="">
-    </div>
-  </div>
+  
   <div style="height:80px"></div>
 </section>
 
@@ -319,13 +322,32 @@ footer p{font-size:11px;color:#333;letter-spacing:.12em}
 </footer>
 
 <script>
-/* Wistia autoplay on load */
-window.addEventListener('load', function() {
-  var player = document.querySelector('wistia-player');
-  if (player) {
-    player.play();
+/* Wistia autoplay with unmute button fallback */
+(function() {
+  var player = document.getElementById('hero-wistia-player');
+  var unmuteBtn = document.getElementById('unmute-btn');
+  
+  function tryPlay() {
+    if (!player) return;
+    var playPromise = player.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(function() {
+        if (unmuteBtn) {
+          unmuteBtn.style.display = 'block';
+          unmuteBtn.addEventListener('click', function() {
+            player.muted = false;
+            player.play();
+            unmuteBtn.style.display = 'none';
+          });
+        }
+      });
+    }
   }
-});
+  
+  if (player) {
+    player.addEventListener('wistia-player-loaded', tryPlay);
+  }
+})();
 
 /* ══ SOFT GLOWING BENDY STARS ══ */
 (function(){
