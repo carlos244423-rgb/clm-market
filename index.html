@@ -15,16 +15,16 @@ body{background:#000;color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden
 
 /* ── HERO ── */
 .hero{
-  position:relative;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:flex-start;
-  padding:48px 24px 0;
-  background:#000;
-  /* NO overflow:hidden so stars aren't clipped */
-}
+   position:relative;
+   min-height:100vh;
+   display:flex;
+   flex-direction:column;
+   align-items:center;
+   justify-content:flex-start;
+   padding:48px 24px 0;
+   background:#000;
+   /* NO overflow:hidden so stars aren't clipped */
+ }
 
 /* star canvases sit inside hero but overflow the sides */
 .star-canvas{
@@ -49,12 +49,14 @@ body{background:#000;color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden
 }
 
 #wave-canvas{
-  position:absolute;
-  bottom:0;left:0;
-  width:100%;height:420px;
-  pointer-events:none;
-  z-index:1;
-}
+   position:absolute;
+   bottom:0;left:0;
+   width:100%;height:420px;
+   pointer-events:none;
+   z-index:1;
+   transform:translateZ(0);
+   will-change:transform;
+ }
 
 .hero-content{
   position:relative;
@@ -74,30 +76,31 @@ body{background:#000;color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden
 }
 
 .hero-tagline{
-  font-weight:500;
-  font-size:clamp(18px,2.4vw,26px);
-  line-height:1.45;
-  margin-bottom:36px;
-}
+   font-weight:500;
+   font-size:clamp(18px,2.4vw,26px);
+   line-height:1.45;
+   margin-bottom:24px;
+ }
 
 .hero-video-wrap{
-  width:100%;max-width:660px;
-  margin:0 auto 32px;
-  border-radius:12px;overflow:hidden;
-  background:#111;
-  aspect-ratio:16/9.46;
-  position:relative;
-}
+   width:100%;max-width:660px;
+   margin:0 auto 16px;
+   border-radius:12px;overflow:hidden;
+   background:#111;
+   aspect-ratio:16/9.46;
+   position:relative;
+   border:2px solid #fff;
+ }
 .hero-video-wrap iframe,
 .hero-video-wrap wistia-player{
   width:100%;height:100%;border:none;display:block;
 }
 
 .hero-cta-text{
-  font-size:clamp(14px,1.8vw,18px);
-  line-height:1.7;
-  margin-bottom:24px;
-}
+   font-size:clamp(14px,1.8vw,18px);
+   line-height:1.7;
+   margin-bottom:16px;
+ }
 
 .btn-apply{
    display:inline-block;
@@ -109,7 +112,7 @@ body{background:#000;color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden
    border-radius:50px;
    text-decoration:none;
    transition:background .2s;
-   margin-bottom:80px;
+   margin-bottom:40px;
  }
 .btn-apply:hover{background:rgba(255,255,255,.1)}
 
@@ -162,12 +165,16 @@ footer{padding:36px 24px;text-align:center;border-top:1px solid #0f0f0f}
 footer p{font-size:11px;color:#333;letter-spacing:.12em}
 
 @media(max-width:600px){
-  .testi-grid,.video-grid{grid-template-columns:1fr}
-  .star-canvas{width:160px;height:160px}
-  #star-left{left:-30px}
-  #star-right{right:-30px}
-  .marquee-track img{width:150px;height:260px}
-}
+   .testi-grid,.video-grid{grid-template-columns:1fr}
+   .star-canvas{width:160px;height:160px}
+   #star-left{left:-30px}
+   #star-right{right:-30px}
+   .marquee-track img{width:150px;height:260px}
+   .hero-tagline{margin-bottom:32px}
+   .hero-video-wrap{margin-bottom:24px}
+   .hero-cta-text{margin-bottom:20px}
+   .btn-apply{margin-bottom:80px}
+ }
 </style>
 </head>
 <body>
@@ -199,18 +206,18 @@ footer p{font-size:11px;color:#333;letter-spacing:.12em}
         <button id="unmute-btn" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(0,0,0,0.7);color:#fff;border:1px solid #fff;padding:12px 24px;border-radius:8px;cursor:pointer;z-index:10;display:none">🔊 Unmute Video</button>
       </div>
 
-     <p class="hero-cta-text">
+     <p class="hero-cta-text" style="margin-top: 70px;">
        Apply for 1-1 Ecommerce coaching<br>
        warning : you will receive a phone call if your application is approved
      </p>
-     <a href="https://form.typeform.com/to/nazGRAXo" target="_blank" class="btn-apply">Apply here</a>
+     <a href="https://form.typeform.com/to/nazGRAXo" style="margin-top: 70px;" target="_blank" class="btn-apply">Apply here</a>
    </div>
  </section>
 
 <!-- ══ TESTIMONIALS ══ -->
 <section>
   <div class="section-inner">
-    <div class="section-title-serif">Testimonials</div>
+    <div class="section-title-serif"> <p style="margin-top: -130px;"> Testimonials </p></div>
     <div class="testi-grid">
       <div class="testi-card"><img src="https://framerusercontent.com/images/vOcXog0kzGGKqBY6S3HrUDLVObM.jpeg" alt=""></div>
       <div class="testi-card"><img src="https://framerusercontent.com/images/GCUNmjfgqgdwQOXzi8Iyqaswf0.jpeg" alt=""></div>
